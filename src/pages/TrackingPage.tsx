@@ -80,7 +80,7 @@ const TrackingPage = () => {
             variant: "destructive",
           });
         },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 300000 }
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 }
       );
     } catch (error) {
       console.error('Permission error:', error);
@@ -108,8 +108,8 @@ const TrackingPage = () => {
 
     const options = {
       enableHighAccuracy: true,
-      timeout: 30000,
-      maximumAge: 60000 // 1 minute
+      timeout: 15000, // Reduced timeout for faster response
+      maximumAge: 10000 // More frequent updates for better accuracy
     };
 
     const handleSuccess = async (position: GeolocationPosition) => {
