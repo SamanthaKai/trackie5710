@@ -4,10 +4,10 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Copy, MapPin, Users } from "lucide-react";
+import { Copy, MapPin, Users, ArrowLeft } from "lucide-react";
 import AdminDashboard from "@/components/AdminDashboard";
 
-const Index = () => {
+const AdminPage = () => {
   const [sessionName, setSessionName] = useState("");
   const [adminEmail, setAdminEmail] = useState("");
   const [currentSession, setCurrentSession] = useState<string | null>(null);
@@ -75,9 +75,19 @@ const Index = () => {
     return (
       <div className="min-h-screen bg-background p-4">
         <div className="mx-auto max-w-2xl space-y-6">
-          <div className="text-center">
-            <h1 className="mb-2 text-3xl font-bold text-foreground">Tracking Session Created</h1>
-            <p className="text-muted-foreground">Share the link below to start tracking locations</p>
+          <div className="flex items-center gap-4">
+            <Button
+              variant="outline"
+              onClick={() => setCurrentSession(null)}
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </Button>
+            <div className="text-center flex-1">
+              <h1 className="mb-2 text-3xl font-bold text-foreground">Tracking Session Created</h1>
+              <p className="text-muted-foreground">Share the link below to start tracking locations</p>
+            </div>
           </div>
 
           <Card>
@@ -124,73 +134,50 @@ const Index = () => {
     <div className="min-h-screen bg-background p-4">
       <div className="mx-auto max-w-md space-y-6">
         <div className="text-center">
-          <h1 className="mb-2 text-3xl font-bold text-foreground">Location Tracker</h1>
-          <p className="text-muted-foreground">Share your location when given a tracking link</p>
+          <h1 className="mb-2 text-3xl font-bold text-foreground">Admin Dashboard</h1>
+          <p className="text-muted-foreground">Create and manage tracking sessions</p>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>How to Use Location Tracker</CardTitle>
+            <CardTitle>Create Tracking Session</CardTitle>
             <CardDescription>
-              Follow these simple steps to share your location
+              Start a new session to track people or objects
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <div className="rounded-full bg-primary text-primary-foreground w-6 h-6 flex items-center justify-center text-sm font-medium">
-                  1
-                </div>
-                <div>
-                  <p className="font-medium">Receive a tracking link</p>
-                  <p className="text-sm text-muted-foreground">You'll get a special link from an event organizer</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-3">
-                <div className="rounded-full bg-primary text-primary-foreground w-6 h-6 flex items-center justify-center text-sm font-medium">
-                  2
-                </div>
-                <div>
-                  <p className="font-medium">Click the link</p>
-                  <p className="text-sm text-muted-foreground">Open the tracking link in your browser</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-3">
-                <div className="rounded-full bg-primary text-primary-foreground w-6 h-6 flex items-center justify-center text-sm font-medium">
-                  3
-                </div>
-                <div>
-                  <p className="font-medium">Allow location access</p>
-                  <p className="text-sm text-muted-foreground">Grant permission when your browser asks</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-3">
-                <div className="rounded-full bg-primary text-primary-foreground w-6 h-6 flex items-center justify-center text-sm font-medium">
-                  4
-                </div>
-                <div>
-                  <p className="font-medium">Start sharing</p>
-                  <p className="text-sm text-muted-foreground">Your location will be shared automatically</p>
-                </div>
-              </div>
+            <div className="space-y-2">
+              <label htmlFor="sessionName" className="text-sm font-medium text-foreground">
+                Session Name *
+              </label>
+              <Input
+                id="sessionName"
+                placeholder="e.g., Field Trip 2024"
+                value={sessionName}
+                onChange={(e) => setSessionName(e.target.value)}
+              />
             </div>
-          </CardContent>
-        </Card>
+            
+            <div className="space-y-2">
+              <label htmlFor="adminEmail" className="text-sm font-medium text-foreground">
+                Admin Email (optional)
+              </label>
+              <Input
+                id="adminEmail"
+                type="email"
+                placeholder="admin@example.com"
+                value={adminEmail}
+                onChange={(e) => setAdminEmail(e.target.value)}
+              />
+            </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Privacy & Security</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Your location is only shared when you actively participate</li>
-              <li>• You can stop sharing at any time</li>
-              <li>• Data is automatically deleted after the session expires</li>
-              <li>• Only event organizers can see your location</li>
-            </ul>
+            <Button 
+              onClick={createTrackingSession} 
+              className="w-full"
+              disabled={isLoading}
+            >
+              {isLoading ? "Creating..." : "Create Session"}
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -198,4 +185,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default AdminPage;
