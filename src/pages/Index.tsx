@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Copy, MapPin, Users } from "lucide-react";
+import { Copy, MapPin, Users, Settings } from "lucide-react";
+import { Link } from "react-router-dom";
 import AdminDashboard from "@/components/AdminDashboard";
 
 const Index = () => {
@@ -123,9 +124,17 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="mx-auto max-w-md space-y-6">
-        <div className="text-center">
-          <h1 className="mb-2 text-3xl font-bold text-foreground">Location Tracker</h1>
-          <p className="text-muted-foreground">Share your location when given a tracking link</p>
+        <div className="flex items-center justify-between">
+          <div className="text-center flex-1">
+            <h1 className="mb-2 text-3xl font-bold text-foreground">Location Tracker</h1>
+            <p className="text-muted-foreground">Share your location when given a tracking link</p>
+          </div>
+          <Link to="/admin">
+            <Button variant="outline" size="sm" className="flex items-center gap-2">
+              <Settings className="h-4 w-4" />
+              Admin
+            </Button>
+          </Link>
         </div>
 
         <Card>
